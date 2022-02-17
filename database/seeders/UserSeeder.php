@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\PaymentCard;
 use App\Models\Profile;
 use App\Models\User;
@@ -20,20 +21,27 @@ class UserSeeder extends Seeder
     {
         User::factory()
             ->has(Profile::factory([
-                'first_name' => 'Eros',
-                'last_name' => 'Gonzàlez i Garcia',
-                'birthdate' => new Carbon('1987/02/14'),
+                'first_name' => 'Nom',
+                'last_name' => 'Cognom1 i Cognom2',
+                'birthdate' => new Carbon('1980/01/01'),
                 'sex' => 'male',
-                'telephone' => '605525953',
+                'telephone' => '612345678',
             ]))
+            ->has(Address::factory([
+                'name' => 'Casa',
+                'address' => 'Carrer Gran, 123, 1r 2a',
+                'telephone' => '612345678',
+            ]))
+            ->has(PaymentCard::factory())
             ->create([
-                'email' => 'gonzalez.eros@gmail.com',
+                'email' => 'admin@gbotiga.cat',
         ]);
 
         User::factory()
             ->count(10)
-            ->has(PaymentCard::factory())
             ->has(Profile::factory())
+            ->has(Address::factory())
+            ->has(PaymentCard::factory())
             ->create();
     }
 }

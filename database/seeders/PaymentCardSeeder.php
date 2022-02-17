@@ -16,6 +16,6 @@ class PaymentCardSeeder extends Seeder
      */
     public function run()
     {
-        //
+
     }
 }

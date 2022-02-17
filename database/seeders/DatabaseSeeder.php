@@ -18,12 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ColorSeeder::class,
             TypeSeeder::class,
-            FormatSeeder::class,
-            LegalitySeeder::class,
+//            FormatSeeder::class,
+//            LegalitySeeder::class,
             SetSeeder::class,
             CardSeeder::class,
             UserSeeder::class,
-            PaymentCardSeeder::class,
         ]);
     }
 }

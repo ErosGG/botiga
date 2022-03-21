@@ -37,7 +37,7 @@ class CardSeeder extends Seeder
 
         $setsIds = DB::table('sets')->pluck('id', 'code');
 
-        foreach (array_slice(json_decode($oracle), 0, 100) as $objectData) {
+        foreach (array_slice(json_decode($oracle), 0, 10) as $objectData) {
             $card = Card::factory()
                 ->create([
                     'oracle_id' => $objectData->oracle_id,
@@ -74,41 +74,54 @@ class CardSeeder extends Seeder
                             'oracle_text' => $faceObject->oracle_text ?? null,
                         ]);
                 }
+            } else {
+                $cardFace = CardFace::factory()
+                    ->create([
+                        'card_print_id' => $cardPrint->id,
+                        'multiverse_id' => $objectData->multiverse_id[0] ?? null,
+                        'name' => $objectData->name,
+                        'mana_cost' => $objectData->mana_cost,
+                        'type_line' => $objectData->type_line,
+                        'power' => $objectData->power ?? null,
+                        'toughness' => $objectData->toughness ?? null,
+                        'oracle_text' => $objectData->oracle_text ?? null,
+                    ]);
             }
 
 
-//            foreach ($objectData->legalities as $format => $legality) {
+            foreach ($objectData->legalities as $format => $legality) {
+                $cardPrint->formats()->attach($formatIds[$format], ['legality_id' => $legalityIds[$legality]]);
 //                $now = now();
-//                DB::table('card_format_legality')->insert([
-//                    'card_id' => $card->id,
+//                DB::table('playabilities')->insert([
+//                    'card_print_id' => $cardPrint->id,
 //                    'format_id' => $formatIds[$format],
 //                    'legality_id' => $legalityIds[$legality],
 //                    'created_at' => $now,
 //                    'updated_at' => $now,
 //                ]);
-//            }
-//
-//            foreach (explode(' ', $objectData->type_line) as $type) {
-//                if (array_key_exists($type, $typesIds->toArray())) {
-//                    $card->types()->attach($typesIds[$type]);
-//                }
-//            }
-//
-//            foreach ($objectData->colors ?? [] as $color) {
-//                $card->colors()->attach($colorsIds[$color]);
-//            }
-//
-//            foreach ($objectData->color_identity ?? [] as $color) {
-//                $card->colorIdentity()->attach($colorsIds[$color]);
-//            }
-//
-//            foreach ($objectData->color_indicator ?? [] as $color) {
-//                $card->colorIndicator()->attach($colorsIds[$color]);
-//            }
-//
-//            foreach ($objectData->produced_mana ?? [] as $color) {
-//                $card->producedMana()->attach($colorsIds[$color]);
-//            }
+            }
+
+            foreach (explode(' ', $objectData->type_line) as $type) {
+                if (array_key_exists($type, $typesIds->toArray())) {
+                    $cardFace->types()->attach($typesIds[$type]);
+                }
+            }
+
+            foreach ($objectData->colors ?? [] as $color) {
+                $cardFace->colors()->attach($colorsIds[$color]);
+            }
+
+            foreach ($objectData->color_identity ?? [] as $color) {
+                $card->colorIdentity()->attach($colorsIds[$color]);
+            }
+
+            foreach ($objectData->color_indicator ?? [] as $color) {
+                $cardFace->colorIndicator()->attach($colorsIds[$color]);
+            }
+
+            foreach ($objectData->produced_mana ?? [] as $color) {
+                $card->producedMana()->attach($colorsIds[$color]);
+            }
         }
     }
 }

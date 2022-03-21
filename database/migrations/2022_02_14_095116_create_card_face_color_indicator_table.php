@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('card_face_id')->constrained()->onDelete('cascade');
             $table->foreignId('color_id')->constrained()->onDelete('cascade');
+            $table->unique(['card_face_id', 'color_id'], 'card_face_color');
             $table->timestamps();
         });
     }

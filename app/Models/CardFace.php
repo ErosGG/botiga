@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class CardFace extends Model
@@ -39,5 +42,17 @@ class CardFace extends Model
     public function colorIndicator(): BelongsToMany
     {
         return $this->belongsToMany(Color::class, 'card_color_indicator')->withTimestamps();
+    }
+
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
+
+
+    public function largestImage(): HasOne
+    {
+        return $this->hasOne(Image::class)->ofMany('image_size_id', 'max');
     }
 }

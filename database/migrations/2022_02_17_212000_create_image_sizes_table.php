@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('formats', function (Blueprint $table) {
+        Schema::create('image_sizes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_print_id')->constrained()->onDelete('cascade');
-            $table->string('format', 255);
-            $table->enum('legality', [
-                'legal', 'not_legal', 'restricted', 'banned'
-            ]);
+            $table->string('size', 255);
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formats');
+        Schema::dropIfExists('image_sizes');
     }
 };

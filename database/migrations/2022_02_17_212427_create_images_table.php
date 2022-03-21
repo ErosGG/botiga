@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('card_face_color', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_face_id')->constrained()->onDelete('cascade');
-            $table->foreignId('color_id')->constrained()->onDelete('cascade');
-            $table->unique(['card_face_id', 'color_id'], 'card_face_color');
+            $table->foreignId('card_face_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('image_size_id')->constrained()->cascadeOnDelete();
+            $table->string('uri', 255);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('card_color');
+        Schema::dropIfExists('images');
     }
 };

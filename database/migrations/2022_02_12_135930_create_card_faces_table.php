@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('multiverse_id')->nullable();
             $table->string('name', 255);
             $table->string('mana_cost', 255);
-            $table->string('type_line', 22);
+            $table->string('type_line', 255);
             $table->string('power', 255)->nullable();
             $table->string('toughness', 255)->nullable();
             $table->text('oracle_text')->nullable();

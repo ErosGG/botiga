@@ -43,22 +43,34 @@ class CardPrint extends Model
     }
 
 
-    public function formats(): HasMany
+//    public function formats(): HasMany
+//    {
+//        return $this->hasMany(Format::class);
+//    }
+
+
+    public function formats(): BelongsToMany
     {
-        return $this->hasMany(Format::class);
+        return $this->belongsToMany(Format::class, 'playabilities')
+            ->using(Playability::class)
+            ->withPivot('legality_id')
+            ->withTimestamps();
     }
 
 
-//    public function formats(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Format::class, 'card_format_legality');
-//    }
-//
-//
-//    public function legalities(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Legality::class, 'card_format_legality');
-//    }
+    public function legalities(): BelongsToMany
+    {
+        return $this->belongsToMany(Legality::class, 'playabilities')
+            ->using(Playability::class)
+            ->withPivot('format_id')
+            ->withTimestamps();
+    }
+
+
+    public function playabilities(): HasMany
+    {
+        return $this->hasMany(Playability::class);
+    }
 
 
     public function stock(): HasOne

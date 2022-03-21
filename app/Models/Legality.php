@@ -15,14 +15,20 @@ class Legality extends Model
     ];
 
 
-    public function cards(): BelongsToMany
+    public function cardPrints(): BelongsToMany
     {
-        return $this->belongsToMany(Card::class, 'card_format_legality');
+        return $this->belongsToMany(Card::class, 'playabilities')
+            ->using(Playability::class)
+            ->withPivot('format_id')
+            ->withTimestamps();
     }
 
 
     public function formats(): BelongsToMany
     {
-        return $this->belongsToMany(Format::class, 'card_format_legality');
+        return $this->belongsToMany(Format::class, 'playabilities')
+            ->using(Playability::class)
+            ->withPivot('card_print_id')
+            ->withTimestamps();
     }
 }

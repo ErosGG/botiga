@@ -12,14 +12,26 @@ class Format extends Model
     use HasFactory;
 
 
-    public function cardPrints(): BelongsTo
+//    public function cardPrints(): BelongsTo
+//    {
+//        return $this->belongsTo(CardPrint::class);
+//    }
+
+
+    public function cardPrints(): BelongsToMany
     {
-        return $this->belongsTo(CardPrint::class);
+        return $this->belongsToMany(CardPrint::class, 'playabilities')
+            ->using(Playability::class)
+            ->withPivot('legality_id')
+            ->withTimestamps();
     }
 
 
-//    public function legalities(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Legality::class, 'card_format_legality');
-//    }
+    public function legalities(): BelongsToMany
+    {
+        return $this->belongsToMany(Legality::class, 'playabilities')
+            ->using(Playability::class)
+            ->withPivot('card_print_id')
+            ->withTimestamps();
+    }
 }

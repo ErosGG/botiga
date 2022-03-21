@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('card_face_color', function (Blueprint $table) {
+        Schema::create('formats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_face_id')->constrained()->onDelete('cascade');
-            $table->foreignId('color_id')->constrained()->onDelete('cascade');
-            $table->unique(['card_face_id', 'color_id'], 'card_face_color');
+//            $table->foreignId('card_print_id')->constrained()->onDelete('cascade');
+            $table->string('format', 255);
+//            $table->enum('legality', [
+//                'legal', 'not_legal', 'restricted', 'banned'
+//            ]);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('card_color');
+        Schema::dropIfExists('formats');
     }
 };
